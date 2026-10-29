@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "project",
-    "slug": "project",
+    "name": "DivyaPath",
+    "slug": "divyapath",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "project",
+    "scheme": "divyapath",
     "userInterfaceStyle": "light",
     "ios": {
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "com.divyapath.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -38,6 +39,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "abdf7f76-ea4c-4254-b1d0-a91db3f9e5de"
+      }
+    },
+    "owner": "dinuvishwakarma"
   }
 }
