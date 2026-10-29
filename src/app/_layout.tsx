@@ -1,18 +1,57 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import {
+  Mukta_400Regular,
+  Mukta_500Medium,
+  Mukta_600SemiBold,
+  Mukta_700Bold,
+} from '@expo-google-fonts/mukta';
+import { TiroDevanagariHindi_400Regular } from '@expo-google-fonts/tiro-devanagari-hindi';
+import { useFonts } from 'expo-font';
+import { DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { useEffect } from 'react';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { ToastHost } from '@/components/ui/toast-host';
+import { Colors } from '@/constants/theme';
+import { usePlayerTicker } from '@/features/aarti';
+import { AppProviders } from '@/providers/app-providers';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const navigationTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.bg,
+    card: Colors.bg,
+    primary: Colors.accent,
+  },
+};
+
+export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({
+    Mukta_400Regular,
+    Mukta_500Medium,
+    Mukta_600SemiBold,
+    Mukta_700Bold,
+    TiroDevanagariHindi_400Regular,
+  });
+  usePlayerTicker();
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) SplashScreen.hideAsync();
+  }, [fontsLoaded, fontError]);
+
+  // Wait for fonts so text doesn't jump; if they fail, the system font is used.
+  if (!fontsLoaded && !fontError) return null;
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <AppProviders>
+      <ThemeProvider value={navigationTheme}>
+        <Stack
+          screenOptions={{ headerShown: false, contentStyle: { backgroundColor: Colors.bg } }}
+        />
+        <ToastHost />
+      </ThemeProvider>
+    </AppProviders>
   );
 }
